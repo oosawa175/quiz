@@ -3,7 +3,16 @@ import { useState } from "react";
 import QuestionCard from "../components/QuestionCard";
 import ChoiceButton from "@/components/ChoiceButton";
 import ResultScreen from "@/components/ResultScreen";
-export default function QuizClient({ questions }){
+type Question = {
+  text: string;
+  choices: string[];
+  ans: number;
+}
+export default function QuizClient({ 
+  questions,
+ }:{
+  questions: Question[];
+}) {
   
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [result, setResult] = useState("");
