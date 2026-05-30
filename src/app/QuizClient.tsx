@@ -5,8 +5,8 @@ import ChoiceButton from "@/components/ChoiceButton";
 import ResultScreen from "@/components/ResultScreen";
 type Question = {
   text: string;
-  choices: string[];
-  ans: number;
+  choices: string;
+  answer: number;
 }
 export default function QuizClient({ 
   questions,
@@ -14,15 +14,19 @@ export default function QuizClient({
   questions: Question[];
 }) {
   
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestion] = useState(0);
   const [result, setResult] = useState("");
   const [score, setScore] = useState(0);
   const [isAnswered, setIsAnswered] = useState(false);
   const [selected, setSelected] = useState(-1);
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const choices = currentQuestion?.choices.split(",").map((choice) => choice.trim()) ?? [];
+
   function hundleAnswer(index:number){
     setSelected(index);
     setIsAnswered(true);
-    if (index === questions[currentQuestion].ans){
+    if (index === currentQuestion.answer){
       setResult("正解！");
       setScore(prev => prev + 1);
     }else{
@@ -30,12 +34,12 @@ export default function QuizClient({
     }
   }
   function nextQuestion(){
-    setCurrentQuestion(currentQuestion + 1);
+    setCurrentQuestion(currentQuestionIndex + 1);
     setResult("");
     setIsAnswered(false);
     setSelected(-1);
   }
-  if (currentQuestion >= questions.length){
+  if (!currentQuestion){
     return(
       <ResultScreen
         score={score}
@@ -46,11 +50,11 @@ export default function QuizClient({
   return(
     <main className="max-w-xl mx-auto mt-10">
       <QuestionCard
-        questionNumber={currentQuestion+1}
-        text={questions[currentQuestion].text}
+        questionNumber={currentQuestionIndex+1}
+        text={currentQuestion.text}
       />
       <div className="mt-6 flex flex-col gap-3">
-        {questions[currentQuestion].choices.map((choice, index) => (
+        {choices.map((choice, index) => (
           <ChoiceButton
             text={choice}
             key={index}
@@ -58,7 +62,7 @@ export default function QuizClient({
             onClick={() => {
               hundleAnswer(index);
             }}
-            className= {isAnswered && index === questions[currentQuestion].ans 
+            className= {isAnswered && index === currentQuestion.answer 
               ? "bg-green-500 text-white" 
               : isAnswered && selected === index 
               ? "bg-red-500 text-white" 
