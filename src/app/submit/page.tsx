@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SubmitPage() {
+  const router = useRouter();
   const [text, setText] = useState("");
   const [choices, setChoices] = useState("");
   const [answer, setAnswer] = useState(0);
@@ -19,7 +21,7 @@ export default function SubmitPage() {
         answer,
       }),
     });
-
+    router.refresh();
     setText("");
     setChoices("");
     setAnswer(0);
