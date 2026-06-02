@@ -4,13 +4,12 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const { text, choices, answer } = body;
-
   const question = await prisma.question.create({
     data: {
-      text,
-      choices,
-      answer,
+      text: body.text,
+      choices: body.choices,
+      answer: body.answer,
+      quizSetId: body.quizSetId,
     },
   });
 

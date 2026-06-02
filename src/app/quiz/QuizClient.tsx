@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import QuestionCard from "../components/QuestionCard";
+import QuestionCard from "@/components/QuestionCard";
 import ChoiceButton from "@/components/ChoiceButton";
 import ResultScreen from "@/components/ResultScreen";
 type Question = {

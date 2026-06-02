@@ -18,4 +18,16 @@ model Question {
   text    String
   choices String
   answer  Int
+
+  quizSetId String
+  quizSet   QuizSet @relation(fields: [quizSetId], references: [id])
+}
+
+model QuizSet {
+  id        String @id @default(cuid())
+  title     String
+
+  userId    String
+
+  questions Question[]
 }
